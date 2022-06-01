@@ -1,6 +1,6 @@
 package com.example.project;
 
-public class SinglyLinkedList<T> {
+public class SinglyLinkedList<T extends Comparable> {
     private Node<T> first; // Primero nodo de la lista
     private int size; // Tamano de la lista
 
@@ -100,12 +100,23 @@ public class SinglyLinkedList<T> {
 
     // Elimina aquellos nodos de la lista que esten duplicados
     public void deleteDuplicates() {
+    	Node<T> aux = this.first; //Creando nodo auxiliar
+    	while (aux != null) {  //iterando la lista 
+    		for(Node<T> aux2 = aux.getNext(); aux2 != null; aux2 = aux2.getNext()) { //iterando nodo por nodo despues del nodo aux
+    			int pos = 1;  //Creando la posicion, empieza en uno porque se compara al nodo que sigue
+    			if(aux.getValue().compareTo(aux2.getValue()) == 0) {    //Si algun nodo despues del aux su valor es igual se eliminara
+    				deleteNth(pos);
+    			}
+    			pos++;
+    		}
+    		aux = aux.getNext();
+    	}
 
     }
 
     // Inserta un nuevo nodo en una posicion especifica de la lista
     public void insertNth(T data, int position) {
-       if (position == this.size + 1) { //Cuando se pasa como posicion el numero de elemtos se agregara al final
+    	if (position == this.size + 1) { //Cuando se pasa como posicion el numero de elemtos se agregara al final
     		//Es un caso especial ya que no se cuenta el primer elemnto desde 0 sino desde 1 y por eso lo evaluamos primero
       		 addLast(data);
       	 }
@@ -126,7 +137,9 @@ public class SinglyLinkedList<T> {
     				aux = aux.getNext(); //iteramos hasta llegar un nodo antes de la posicion que queremos
     			}
     			aux.setNext(new Node<T>(data, aux.getNext()));  //Modificamos para que el nodo de la posicion anterior apunte al nuevo nodo a insertar
+    			this.size++;
     	 }
+     	
     }
 
     // Elimina el nodo de una posicion especifica de la lista
@@ -144,12 +157,14 @@ public class SinglyLinkedList<T> {
     			aux = aux.getNext(); //Iteramos hasta llegar una posicion antes del nodo que queremos eliminar
     		}
     		aux.setNext(aux.getNext().getNext());	//Modificamos para que ya no apunte al nodo que queremos eliminar, sino al que le sigue
+    		 //Como la posicion empieza en 0 restamos 1 al numero de elemntos de la lista
+    		this.size--;
     	}  	
     }
     public boolean verificarRango(int position, int length) {  //metodo para verificar que la posicion no se pase
-    	return position > length - 1;     //tambien funcionara si la lista esta vacia
-        //Como la posicion empieza en 0 restamos 1 al numero de elemntos de la lista
+    	return position > length - 1;                                     //tambien funcionara si la lista esta vacia
     }
+
 
     public static void main(final String[] args) {
 
