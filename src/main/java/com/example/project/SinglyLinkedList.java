@@ -102,17 +102,27 @@ public class SinglyLinkedList<T extends Comparable> {
     public void deleteDuplicates() {
     	Node<T> aux = this.first; //Creando nodo auxiliar
     	while (aux != null) {  //iterando la lista 
+    		int pos = 1;
     		for(Node<T> aux2 = aux.getNext(); aux2 != null; aux2 = aux2.getNext()) { //iterando nodo por nodo despues del nodo aux
-    			int pos = 1;  //Creando la posicion, empieza en uno porque se compara al nodo que sigue
     			if(aux.getValue().compareTo(aux2.getValue()) == 0) {    //Si algun nodo despues del aux su valor es igual se eliminara
-    				deleteNth(pos);
+    				deletePorValor(aux2.getValue()); //Invocando al metodo para que borre el valor repetido que se le manada por parametro
     			}
-    			pos++;
+    			
     		}
     		aux = aux.getNext();
+
     	}
 
     }
+    public void deletePorValor(T x) { //Creando nuevo metodo delete que ahora borrara por valor
+		Node<T> aux = this.first; //nodo auxiliar
+		while(aux.getNext() != null && !(aux.getNext().getValue().compareTo(x) == 0)) {
+			aux = aux.getNext();    //Encontrando el nodo, uno antes del nodo que tiene el valor
+		}
+		aux.setNext(aux.getNext().getNext()); //Ya apuntara al nodo del valor que queremos eliminar
+		
+	}
+    
 
     // Inserta un nuevo nodo en una posicion especifica de la lista
     public void insertNth(T data, int position) {
