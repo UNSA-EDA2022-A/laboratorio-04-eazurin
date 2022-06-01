@@ -148,8 +148,8 @@ public class SinglyLinkedList<T> {
     public static void main(final String[] args) {
 
         // testExercicio1();
-        // testExercicio2();
-        testExercicio3();       
+         testExercicio2();
+        //testExercicio3();       
 
     }
 
