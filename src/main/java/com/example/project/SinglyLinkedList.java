@@ -110,7 +110,24 @@ public class SinglyLinkedList<T> {
 
     // Elimina el nodo de una posicion especifica de la lista
     public void deleteNth(int position) {
-
+        if(verificarRango(position, this.size)) { //Asegurando que la posicion no sea mayor que la longitud de la lista
+    		System.out.println("Fuera de rango.");
+    		return;
+    	}
+    	else if(position == 0) {  //si se quiere eliminar el primer elemento
+    		removeFirst();
+    	}
+    	else { //para los demas casos
+    		Node<T> aux = this.first; //creamos nodo auxiliar
+    		for(int i = 0; i < position - 1; i++) {
+    			aux = aux.getNext(); //Iteramos hasta llegar una posicion antes del nodo que queremos eliminar
+    		}
+    		aux.setNext(aux.getNext().getNext());	//Modificamos para que ya no apunte al nodo que queremos eliminar, sino al que le sigue
+    	}  	
+    }
+    public boolean verificarRango(int position, int length) {  //metodo para verificar que la posicion no se pase
+    	return position > length - 1;     //tambien funcionara si la lista esta vacia
+        //Como la posicion empieza en 0 restamos 1 al numero de elemntos de la lista
     }
 
     public static void main(final String[] args) {
