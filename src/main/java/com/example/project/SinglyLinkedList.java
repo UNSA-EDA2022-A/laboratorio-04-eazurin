@@ -105,16 +105,20 @@ public class SinglyLinkedList<T> {
 
     // Inserta un nuevo nodo en una posicion especifica de la lista
     public void insertNth(T data, int position) {
-       if(verificarRango(position - 1, this.size)) { //Asegurando que la posicion no sea mayor que la longitud de la lista
-    		//Como esta vez podemos pasarnos por 1 en la posicion para añadir al final restamos 1 para que el metodo funcione correctamente
+       if (position == this.size + 1) { //Cuando se pasa como posicion el numero de elemtos se agregara al final
+    		//Es un caso especial ya que no se cuenta el primer elemnto desde 0 sino desde 1 y por eso lo evaluamos primero
+      		 addLast(data);
+      	 }
+    	else if(verificarRango(position - 1, this.size)) { //Asegurando que la posicion no sea mayor que la longitud de la lista
+    		//Como esta vez podemos pasarnos por 1 la posicion para añadir al final restamos 1 para que el metodo funcione correctamente
+    		//‘a’ ‘b’ ‘d’
+    		//insertNth (‘c’, 3)
+    		//{a,b,d,c}
      		System.out.println("Fuera de rango.");
      		return;
     	 }
     	 else if (position == 0) { //Si la pocision es 0 se agregara al inicio
     		 addFirst(data);
-    	 }
-    	 else if (position == this.size) { //Si la pocision es al final
-    		 addLast(data);
     	 }
     	 else { //para los demas casos
     		 Node<T> aux = this.first; //creamos nodo auxiliar
