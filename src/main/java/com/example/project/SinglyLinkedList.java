@@ -115,11 +115,25 @@ public class SinglyLinkedList<T extends Comparable> {
 
     }
     public void deletePorValor(T x) { //Creando nuevo metodo delete que ahora borrara por valor
-		Node<T> aux = this.first; //nodo auxiliar
-		while(aux.getNext() != null && !(aux.getNext().getValue().compareTo(x) == 0)) {
-			aux = aux.getNext();    //Encontrando el nodo, uno antes del nodo que tiene el valor
+    	if(!search(x) || isEmpty()) { //Si no existe el elemto o la lista esta vacia no hara nada
+    		return;
+    	}
+    	else {
+    		Node<T> aux = this.first; //nodo auxiliar
+    		while(aux.getNext() != null && !(aux.getNext().getValue().compareTo(x) == 0)) {
+    			aux = aux.getNext();    //Encontrando el nodo, uno antes del nodo que tiene el valor
+    		}
+    		aux.setNext(aux.getNext().getNext()); //Ya apuntara al nodo del valor que queremos eliminar
+    	}
+    	
+		
+	}
+    public boolean search(T x) {  //metodo buscar si existe el valor retornara true y si no existe sera false
+		Node<T> aux = this.first;
+		while(aux != null && !(aux.getValue().compareTo(x) == 0)) {
+			aux = aux.getNext();  //hasta que encuentre el elemento o sea nulo
 		}
-		aux.setNext(aux.getNext().getNext()); //Ya apuntara al nodo del valor que queremos eliminar
+		return aux != null;
 		
 	}
     
@@ -174,7 +188,6 @@ public class SinglyLinkedList<T extends Comparable> {
     public boolean verificarRango(int position, int length) {  //metodo para verificar que la posicion no se pase
     	return position > length - 1;                                     //tambien funcionara si la lista esta vacia
     }
-
 
     public static void main(final String[] args) {
 
