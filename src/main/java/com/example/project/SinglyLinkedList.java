@@ -1,6 +1,6 @@
 package com.example.project;
 
-public class SinglyLinkedList<T> {
+public class SinglyLinkedList<T extends Comparable> {
     private Node<T> first; // Primero nodo de la lista
     private int size; // Tamano de la lista
 
@@ -100,24 +100,100 @@ public class SinglyLinkedList<T> {
 
     // Elimina aquellos nodos de la lista que esten duplicados
     public void deleteDuplicates() {
+    	Node<T> aux = this.first; //Creando nodo auxiliar
+    	while (aux != null) {  //iterando la lista 
+    		int pos = 1;
+    		for(Node<T> aux2 = aux.getNext(); aux2 != null; aux2 = aux2.getNext()) { //iterando nodo por nodo despues del nodo aux
+    			if(aux.getValue().compareTo(aux2.getValue()) == 0) {    //Si algun nodo despues del aux su valor es igual se eliminara
+    				deletePorValor(aux2.getValue()); //Invocando al metodo para que borre el valor repetido que se le manada por parametro
+    			}
+    			
+    		}
+    		aux = aux.getNext();
+
+    	}
 
     }
+    public void deletePorValor(T x) { //Creando nuevo metodo delete que ahora borrara por valor
+    	if(!search(x) || isEmpty()) { //Si no existe el elemto o la lista esta vacia no hara nada
+    		return;
+    	}
+    	else {
+    		Node<T> aux = this.first; //nodo auxiliar
+    		while(aux.getNext() != null && !(aux.getNext().getValue().compareTo(x) == 0)) {
+    			aux = aux.getNext();    //Encontrando el nodo, uno antes del nodo que tiene el valor
+    		}
+    		aux.setNext(aux.getNext().getNext()); //Ya apuntara al nodo del valor que queremos eliminar
+    	}
+    	
+		
+	}
+    public boolean search(T x) {  //metodo buscar si existe el valor retornara true y si no existe sera false
+		Node<T> aux = this.first;
+		while(aux != null && !(aux.getValue().compareTo(x) == 0)) {
+			aux = aux.getNext();  //hasta que encuentre el elemento o sea nulo
+		}
+		return aux != null;
+		
+	}
+    
 
     // Inserta un nuevo nodo en una posicion especifica de la lista
     public void insertNth(T data, int position) {
-
+    	if (position == this.size + 1) { //Cuando se pasa como posicion el numero de elemtos se agregara al final
+    		//Es un caso especial ya que no se cuenta el primer elemnto desde 0 sino desde 1 y por eso lo evaluamos primero
+      		 addLast(data);
+      	 }
+    	else if(verificarRango(position - 1, this.size)) { //Asegurando que la posicion no sea mayor que la longitud de la lista
+    		//Como esta vez podemos pasarnos por 1 la posicion para añadir al final restamos 1 para que el metodo funcione correctamente
+    		//‘a’ ‘b’ ‘d’
+    		//insertNth (‘c’, 3)
+    		//{a,b,d,c}
+     		System.out.println("Fuera de rango.");
+     		return;
+    	 }
+    	 else if (position == 0) { //Si la pocision es 0 se agregara al inicio
+    		 addFirst(data);
+    	 }
+    	 else { //para los demas casos
+    		 Node<T> aux = this.first; //creamos nodo auxiliar
+    			for(int i = 0; i < position - 1; i++) {
+    				aux = aux.getNext(); //iteramos hasta llegar un nodo antes de la posicion que queremos
+    			}
+    			aux.setNext(new Node<T>(data, aux.getNext()));  //Modificamos para que el nodo de la posicion anterior apunte al nuevo nodo a insertar
+    			this.size++;
+    	 }
+     	
     }
 
     // Elimina el nodo de una posicion especifica de la lista
     public void deleteNth(int position) {
-
+        if(verificarRango(position, this.size)) { //Asegurando que la posicion no sea mayor que la longitud de la lista
+    		System.out.println("Fuera de rango.");
+    		return;
+    	}
+    	else if(position == 0) {  //si se quiere eliminar el primer elemento
+    		removeFirst();
+    	}
+    	else { //para los demas casos
+    		Node<T> aux = this.first; //creamos nodo auxiliar
+    		for(int i = 0; i < position - 1; i++) {
+    			aux = aux.getNext(); //Iteramos hasta llegar una posicion antes del nodo que queremos eliminar
+    		}
+    		aux.setNext(aux.getNext().getNext());	//Modificamos para que ya no apunte al nodo que queremos eliminar, sino al que le sigue
+    		 //Como la posicion empieza en 0 restamos 1 al numero de elemntos de la lista
+    		this.size--;
+    	}  	
+    }
+    public boolean verificarRango(int position, int length) {  //metodo para verificar que la posicion no se pase
+    	return position > length - 1;                                     //tambien funcionara si la lista esta vacia
     }
 
     public static void main(final String[] args) {
 
         // testExercicio1();
-        // testExercicio2();
-        testExercicio3();       
+         testExercicio2();
+        //testExercicio3();       
 
     }
 
